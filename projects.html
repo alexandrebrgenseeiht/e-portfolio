@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alexandre Brugerolle | Projects</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <p class="name">Alexandre Brugerolle</p>
+    <nav>
+      <a href="index.html">Welcome</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="career.html">Career</a>
+      <a href="mobility.html">Mobility</a>
+      <a href="passions.html">Passions</a>
+      <a href="civic.html">Civic Engagement</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Projects</h1>
+    <p class="lead">
+      Two school projects in networks and security, both written in Java.
+      They taught me what happens below the APIs I use every day at Airbus.
+    </p>
+
+    <div class="todo">
+      The specialty you are aiming for at N7, in one or two sentences.
+    </div>
+
+    <div class="card">
+      <h2>Secure chat application</h2>
+      <p class="meta">Networks course project · November to December 2025 · Solo</p>
+      <ul class="tags">
+        <li>Java</li>
+        <li>Sockets</li>
+        <li>Threads</li>
+        <li>RSA</li>
+        <li>AES</li>
+        <li>Swing</li>
+      </ul>
+
+      <h3>Goal</h3>
+      <p>
+        Build a chat server where many clients talk in private rooms,
+        and where the server cannot read the messages.
+      </p>
+
+      <h3>What I did</h3>
+      <ul>
+        <li>A multi-client server: one thread per connection, capped by a fixed thread pool so the server does not collapse under load.</li>
+        <li>Private rooms with admin rights: invite, kick, delete, promote a new admin, rename.</li>
+        <li>End-to-end encryption. Each room has its own AES key, sent to every member encrypted with their RSA public key (OAEP). Messages are encrypted on the client with AES-CBC and a fresh IV each time.</li>
+        <li>Key rotation: when someone leaves or is kicked, the room gets a new key, so former members cannot read what comes next.</li>
+        <li>"Never trust the client": every request is checked for syntax and for logic (does this room exist, is this user admin) before anything runs.</li>
+        <li>Thread-safe state with <code>ConcurrentHashMap</code> and <code>AtomicInteger</code>.</li>
+        <li>A Swing interface designed to be simple to use.</li>
+      </ul>
+
+      <h3>Result</h3>
+      <p>
+        A working encrypted chat in about 1,000 lines of Java, built over 37 commits in one month,
+        with a written report on the security choices.
+      </p>
+
+      <h3>What I learnt</h3>
+      <p>
+        Security is a design decision, not a feature you add at the end.
+        I now think about what the client is allowed to see in every API I write.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>DES encryption from scratch</h2>
+      <p class="meta">Networks course project · September to October 2025 · Solo</p>
+      <ul class="tags">
+        <li>Java</li>
+        <li>Cryptography</li>
+        <li>JUnit 5</li>
+      </ul>
+
+      <h3>Goal</h3>
+      <p>
+        Implement the DES block cipher by hand, without any crypto library,
+        to understand how a symmetric cipher really works.
+      </p>
+
+      <h3>What I did</h3>
+      <ul>
+        <li>Conversion between UTF-8 text and 64-bit blocks, with padding.</li>
+        <li>Initial and inverse permutations, block splitting and merging, left shifts, XOR.</li>
+        <li>The key schedule: a random 64-bit master key turned into 16 round keys with PC-1 and PC-2.</li>
+        <li>The F function with expansion, the 8 S-boxes and the P permutation.</li>
+        <li>Encryption and decryption over the full 16 rounds.</li>
+        <li>I wrote a test for each step as I built it: 38 JUnit 5 tests in total.</li>
+      </ul>
+
+      <h3>Result</h3>
+      <p>
+        A text goes in, gets encrypted, and comes back out identical after decryption.
+        Every building block is documented with Javadoc and covered by tests.
+      </p>
+
+      <h3>What I learnt</h3>
+      <p>
+        Testing each small piece first made the full cipher much easier to debug.
+        It also showed me why real projects should never roll their own crypto.
+      </p>
+    </div>
+
+    <p class="meta">The source code of both projects is in private repositories, available on request.</p>
+  </main>
+
+  <footer>Alexandre Brugerolle, 2026</footer>
+</body>
+</html>
